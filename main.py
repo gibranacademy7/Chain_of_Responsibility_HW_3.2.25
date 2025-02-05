@@ -1,16 +1,27 @@
-# This is a sample Python script.
+# main.py
+from range_check import RangeCheck
+from divisible_by_check import DivisibleBy2Check, DivisibleBy3Check, DivisibleBy5Check, DivisibleBy7Check
+from prime_check import PrimeCheck
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Create the chain of responsibility
+range_check = RangeCheck()
+div2_check = DivisibleBy2Check()
+div3_check = DivisibleBy3Check()
+div5_check = DivisibleBy5Check()
+div7_check = DivisibleBy7Check()
+prime_check = PrimeCheck()
 
+# Set the chain links
+range_check.set_next(div2_check)
+div2_check.set_next(div3_check)
+div3_check.set_next(div5_check)
+div5_check.set_next(div7_check)
+div7_check.set_next(prime_check)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# Test cases
+test_numbers = [12, 17, 23, 100, 121, 169]
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+for num in test_numbers:
+    print(f"\nChecking number: {num}")
+    range_check.check(num)
+    print('-' * 30)
